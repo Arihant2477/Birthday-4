@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Birthday Surprise</title>
+
+<style>
+
+body{
+margin:0;
+height:100vh;
+background:black;
+color:white;
+font-family:Arial;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+text-align:center;
+overflow:hidden;
+}
+
+/* stars */
+
+.star{
+position:absolute;
+width:2px;
+height:2px;
+background:white;
+animation:twinkle 2s infinite alternate;
+}
+
+@keyframes twinkle{
+from{opacity:0.3;}
+to{opacity:1;}
+}
+
+/* intro text */
+
+#intro{
+font-size:22px;
+max-width:300px;
+animation:fadeIn 2s;
+}
+
+@keyframes fadeIn{
+from{opacity:0}
+to{opacity:1}
+}
+
+/* button */
+
+button{
+margin-top:20px;
+padding:12px 25px;
+border:none;
+border-radius:30px;
+background:#ff4d6d;
+color:white;
+font-size:16px;
+cursor:pointer;
+}
+
+/* gift */
+
+.gift{
+font-size:80px;
+display:none;
+cursor:pointer;
+}
+
+/* message */
+
+.message{
+opacity:0;
+max-width:320px;
+transition:1s;
+}
+
+.show{
+opacity:1;
+}
+
+/* slideshow */
+
+.slideshow{
+margin-top:20px;
+display:none;
+}
+
+.slideshow img{
+width:200px;
+border-radius:10px;
+}
+
+/* balloons */
+
+.balloon{
+position:absolute;
+bottom:-100px;
+font-size:28px;
+animation:float 8s linear infinite;
+}
+
+@keyframes float{
+0%{transform:translateY(0)}
+100%{transform:translateY(-120vh)}
+}
+
+/* confetti */
+
+.confetti{
+position:absolute;
+font-size:20px;
+animation:fall 3s linear forwards;
+}
+
+@keyframes fall{
+0%{transform:translateY(-100px)}
+100%{transform:translateY(110vh)}
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="intro">
+Someone very special has a surprise for you... 🎁
+<br>
+<button onclick="nextStep()">See the Surprise</button>
+</div>
+
+<div class="gift" onclick="openGift()">🎁</div>
+
+<h1 id="title" style="display:none;">Happy Birthday!</h1>
+
+<p id="msg" class="message">
+You are an amazing person and today is all about celebrating you!  
+May your day be full of happiness, laughter and unforgettable memories. 🎂
+</p>
+
+<div class="slideshow" id="photos">
+<img id="slide" src="photo1.jpg">
+</div>
+
+<audio autoplay loop>
+<source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+
+/* stars */
+
+for(let i=0;i<120;i++){
+let star=document.createElement("div");
+star.className="star";
+star.style.left=Math.random()*100+"vw";
+star.style.top=Math.random()*100+"vh";
+document.body.appendChild(star);
+}
+
+/* step 1 */
+
+function nextStep(){
+document.getElementById("intro").style.display="none";
+document.querySelector(".gift").style.display="block";
+}
+
+/* open gift */
+
+function openGift(){
+
+document.querySelector(".gift").style.display="none";
+
+document.getElementById("title").style.display="block";
+
+document.getElementById("msg").classList.add("show");
+
+document.getElementById("photos").style.display="block";
+
+createBalloons();
+createConfetti();
+startSlideshow();
+
+}
+
+/* balloons */
+
+function createBalloons(){
+
+for(let i=0;i<20;i++){
+
+let balloon=document.createElement("div");
+balloon.className="balloon";
+balloon.innerHTML="🎈";
+
+balloon.style.left=Math.random()*100+"vw";
+
+document.body.appendChild(balloon);
+
+setTimeout(()=>{
+balloon.remove();
+},8000);
+
+}
+
+}
+
+/* confetti */
+
+function createConfetti(){
+
+for(let i=0;i<60;i++){
+
+let confetti=document.createElement("div");
+confetti.className="confetti";
+
+let emojis=["🎉","✨","🎊"];
+
+confetti.innerHTML=emojis[Math.floor(Math.random()*emojis.length)];
+
+confetti.style.left=Math.random()*100+"vw";
+
+document.body.appendChild(confetti);
+
+setTimeout(()=>{
+confetti.remove();
+},3000);
+
+}
+
+}
+
+/* slideshow */
+
+let photos=["photo1.jpg","photo2.jpg","photo3.jpg"];
+
+let index=0;
+
+function startSlideshow(){
+
+setInterval(()=>{
+
+index++;
+
+if(index>=photos.length){
+index=0;
+}
+
+document.getElementById("slide").src=photos[index];
+
+},2000);
+
+}
+
+</script>
+
+</body>
+</html>
